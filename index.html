@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Level 4 Lesson 1: Free Time Then and Now</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Comic+Neue:wght@700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: #334155;
+        }
+        .title-font {
+            font-family: 'Comic Neue', cursive;
+        }
+        .hidden-section {
+            display: none !important;
+        }
+        .fade-in {
+            animation: fadeIn 0.6s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .activity-card {
+            transition: all 0.2s ease;
+        }
+        .activity-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        
+        .quiz-radio {
+            appearance: none;
+            width: 1.25rem;
+            height: 1.25rem;
+            border: 2px solid #3b82f6;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+            display: grid;
+            place-content: center;
+        }
+        .quiz-radio::before {
+            content: "";
+            width: 0.65rem;
+            height: 0.65rem;
+            border-radius: 50%;
+            transform: scale(0);
+            transition: 120ms transform ease-in-out;
+            box-shadow: inset 1em 1em #3b82f6;
+        }
+        .quiz-radio:checked::before {
+            transform: scale(1);
+        }
+
+        /* Color Coding Legend Classes */
+        .verb-reg {
+            color: #1e40af;
+            font-weight: 700;
+            background-color: #dbeafe;
+            padding: 0 4px;
+            border-radius: 4px;
+            border: 1px solid #bfdbfe;
+        }
+        .verb-irreg {
+            color: #6b21a8;
+            font-weight: 700;
+            background-color: #f3e8ff;
+            padding: 0 4px;
+            border-radius: 4px;
+            border: 1px solid #e9d5ff;
+        }
+        .verb-pres {
+            color: #15803d;
+            font-weight: 700;
+            background-color: #dcfce3;
+            padding: 0 4px;
+            border-radius: 4px;
+            border: 1px solid #bbf7d0;
+        }
+        
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .tab-btn {
+            transition: all 0.2s ease;
+        }
+        .tab-active {
+            background-color: #2563eb !important; 
+            color: white !important;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <header class="bg-slate-800 text-white shadow-md sticky top-0 z-50">
+        <div class="max-w-5xl mx-auto px-4 py-4 flex justify-between items-center">
+            <h1 class="text-xl md:text-2xl font-bold tracking-wide flex items-center gap-3">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                </svg>
+                Level 4 | Lesson 1
+            </h1>
+            <div id="student-display" class="hidden font-medium bg-slate-700 px-4 py-1.5 rounded-full text-sm shadow-inner border border-slate-600"></div>
+        </div>
+
+        <div class="bg-slate-100 border-b border-slate-200 shadow-inner text-slate-800">
+            <div class="max-w-5xl mx-auto px-4">
+                <nav class="flex overflow-x-auto py-2 gap-2 hide-scrollbar items-center" id="tab-nav">
+                    <button id="tab-engage" onclick="switchTab('tab-engage', 1)" class="tab-btn tab-active px-4 py-1.5 rounded-full whitespace-nowrap font-bold text-sm bg-blue-600 text-white">1. Engage</button>
+                    <button id="tab-input" onclick="switchTab('tab-input', 2)" class="tab-btn px-4 py-1.5 rounded-full whitespace-nowrap font-bold text-sm bg-slate-200 text-slate-700 hover:bg-slate-300">2. Pre-Reading</button>
+                    <button id="tab-gist" onclick="switchTab('tab-gist', 3)" class="tab-btn px-4 py-1.5 rounded-full whitespace-nowrap font-bold text-sm bg-slate-200 text-slate-700 hover:bg-slate-300">3. Gist</button>
+                    <button id="tab-detail" onclick="switchTab('tab-detail', 4)" class="tab-btn px-4 py-1.5 rounded-full whitespace-nowrap font-bold text-sm bg-slate-200 text-slate-700 hover:bg-slate-300">4. Detail</button>
+                    <button id="tab-grammar" onclick="switchTab('tab-grammar', 5)" class="tab-btn px-4 py-1.5 rounded-full whitespace-nowrap font-bold text-sm bg-slate-200 text-slate-700 hover:bg-slate-300">5. Grammar</button>
+                    <button id="tab-activate" onclick="switchTab('tab-activate', 6)" class="tab-btn px-4 py-1.5 rounded-full whitespace-nowrap font-bold text-sm bg-slate-200 text-slate-700 hover:bg-slate-300">6. Activate</button>
+                    <button id="tab-quiz" onclick="switchTab('tab-quiz', 7)" class="tab-btn px-4 py-1.5 rounded-full whitespace-nowrap font-bold text-sm bg-slate-200 text-slate-700 hover:bg-slate-300">7. Quiz</button>
+                </nav>
+            </div>
+        </div>
+
+        <div class="w-full bg-slate-900 h-1.5">
+            <div id="progress-bar" class="bg-blue-500 h-1.5 w-0 transition-all duration-700 ease-out"></div>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-5xl mx-auto w-full p-4 md:p-6 mb-12">
+        
+        <section id="section-engage" class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-10 mt-6 fade-in border-t-4 border-t-blue-500">
+            <div class="mb-8">
+                <span class="inline-block bg-blue-100 text-blue-800 rounded-full px-4 py-1 font-semibold text-sm mb-4 uppercase tracking-wider">Phase 1: Engage</span>
+                <h2 class="text-3xl font-bold text-slate-800 mb-3">Vocabulary Check</h2>
+                <p class="text-slate-600 text-lg">Look at the clues below. <comment-tag id="1">Type the free-time activity, then drag or click to sort them into <strong>Indoor</strong> or <strong>Outdoor</strong> activities.</comment-tag id="1" text="Type the free-time activity, then click to sort them into <strong>Indoor</strong> or <strong>Outdoor</strong> activities.
+
+This edit improves clarity because the application's interface currently only supports clicking to move the items, not dragging and dropping." type="suggestion"></p>
+            </div>
+            
+            <div id="vocab-input-zone" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                <!-- Inputs generated by JS -->
+            </div>
+
+            <div id="sorting-zone" class="hidden fade-in">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-slate-50 rounded-xl p-6 border-2 border-slate-200 border-dashed">
+                        <h3 class="font-bold text-slate-700 text-xl mb-4 flex items-center justify-center gap-2">🏠 Indoor Activities</h3>
+                        <div id="indoor-zone" class="min-h-[100px] flex flex-col gap-2"></div>
+                    </div>
+                    <div class="bg-slate-50 rounded-xl p-6 border-2 border-slate-200 border-dashed">
+                        <h3 class="font-bold text-slate-700 text-xl mb-4 flex items-center justify-center gap-2">🌳 Outdoor Activities</h3>
+                        <div id="outdoor-zone" class="min-h-[100px] flex flex-col gap-2"></div>
+                    </div>
+                </div>
+
+                <div class="mt-8 text-center">
+                    <button id="check-engage-btn" onclick="checkEngage()" class="bg-slate-800 hover:bg-slate-900 text-white font-bold py-3 px-10 rounded-lg transition shadow-md opacity-50 cursor-not-allowed pointer-events-none">Check Classification</button>
+                    <p id="engage-feedback" class="mt-4 font-semibold text-lg h-6"></p>
+                    <button id="next-to-input" onclick="nextSection('section-study-input', 2)" class="hidden mx-auto mt-6 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-10 rounded-lg transition shadow-md">Continue to Pre-Reading ➡️</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="section-study-input" class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-10 mt-6 hidden-section fade-in border-t-4 border-t-indigo-500">
+            <span class="inline-block bg-indigo-100 text-indigo-800 rounded-full px-4 py-1 font-semibold text-sm mb-4 uppercase tracking-wider">Phase 2: Study Input</span>
+            <h2 class="text-3xl font-bold text-slate-800 mb-6">Before You Read</h2>
+            
+            <div class="bg-slate-50 p-6 rounded-xl border border-slate-200 mb-8 text-center">
+                <h3 class="text-2xl font-bold text-slate-800 mb-2">Title: Free Time Then and Now</h3>
+                <div class="flex justify-center gap-12 mt-6">
+                    <div class="text-center">
+                        <div class="text-6xl mb-2">👩</div>
+                        <p class="font-bold text-lg text-slate-700">Ana's mother, Rosa</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-6xl mb-2">👨</div>
+                        <p class="font-bold text-lg text-slate-700">Leo's father, Carlos</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="max-w-2xl mx-auto">
+                <p class="text-lg text-slate-700 mb-4 font-medium text-center"><comment-tag id="2">Predict: What are 3 free-time activities you think Rosa and Carlos did when they were your age?</comment-tag id="2" text="Predict: What are 3 free-time activities you think Rosa and Carlos did when they were young?
+
+For A2/B1 English learners, 'when they were young' is a more natural and commonly taught phrasing than 'when they were your age'." type="suggestion"></p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                    <input type="text" placeholder="Activity 1..." class="predict-input w-full p-3 border-2 border-slate-300 rounded-lg focus:border-indigo-500 outline-none">
+                    <input type="text" placeholder="Activity 2..." class="predict-input w-full p-3 border-2 border-slate-300 rounded-lg focus:border-indigo-500 outline-none">
+                    <input type="text" placeholder="Activity 3..." class="predict-input w-full p-3 border-2 border-slate-300 rounded-lg focus:border-indigo-500 outline-none">
+                </div>
+                <div class="text-center">
+                    <button onclick="checkPredictions()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-10 rounded-lg transition shadow-md">Save Predictions</button>
+                    <p id="prediction-feedback" class="mt-4 text-emerald-600 font-bold hidden">Great! Let's read the text to see if your predictions are correct.</p>
+                    <button id="next-to-gist" onclick="startGistPhase()" class="hidden mx-auto mt-4 bg-slate-800 hover:bg-slate-900 text-white font-bold py-3 px-10 rounded-lg transition shadow-md">Start 90-Second Speed Read ⏱️</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="section-study-gist" class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-10 mt-6 hidden-section fade-in border-t-4 border-t-emerald-500">
+            <div class="flex justify-between items-center mb-6">
+                <div>
+                    <span class="inline-block bg-emerald-100 text-emerald-800 rounded-full px-4 py-1 font-semibold text-sm mb-2 uppercase tracking-wider">Phase 3: Study Gist</span>
+                    <h2 class="text-3xl font-bold text-slate-800">Skimming for Main Idea</h2>
+                </div>
+                <div class="text-right">
+                    <div id="timer-display" class="text-3xl font-mono font-bold text-emerald-600 bg-emerald-50 px-4 py-2 rounded-lg border border-emerald-200 shadow-sm">01:30</div>
+                    <p class="text-xs text-slate-500 mt-1 uppercase tracking-widest font-semibold">Time Remaining</p>
+                </div>
+            </div>
+            
+            <p class="text-slate-600 mb-6 text-lg">Read the text quickly to find the main idea. Do not worry about every single word.</p>
+
+            <!-- Text Content Block (Plain text for Gist) -->
+            <div id="gist-text-container" class="bg-slate-50 border-l-4 border-slate-400 p-6 rounded-r-lg mb-8 shadow-sm text-lg leading-relaxed text-slate-800 transition-opacity duration-1000">
+                <p class="mb-4">
+                    <strong>Ana's mother, Rosa,</strong> grew up in a small town. After school, she usually played outside with her cousins. They rode bikes, invented games, and visited their grandparents. Rosa sometimes listened to music on the radio, but she did not use a phone or the internet. At weekends, the family watched one film together.
+                </p>
+                <p>
+                    <strong>Leo's father, Carlos,</strong> lived in a city. He loved playing football in the street and reading comic books. He often helped at home before he met his friends. In the evening, he listened to music and talked with his brothers. Today, Leo enjoys online games, but Carlos still prefers spending free time outdoors.
+                </p>
+            </div>
+
+            <div class="bg-white p-6 rounded-xl border-2 border-slate-200 shadow-sm">
+                <h3 class="font-bold text-xl mb-4 text-center text-slate-800">What is the BEST summary of this text?</h3>
+                <div class="flex flex-col gap-3 max-w-2xl mx-auto">
+                    <button onclick="checkGist(this, false)" class="gist-btn text-left bg-white border-2 border-slate-200 p-4 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition font-medium text-lg">A) Strict family rules and school life in the past.</button>
+                    <button onclick="checkGist(this, true)" class="gist-btn text-left bg-white border-2 border-slate-200 p-4 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition font-medium text-lg">B) A comparison of free time activities in the past and present.</button>
+                    <button onclick="checkGist(this, false)" class="gist-btn text-left bg-white border-2 border-slate-200 p-4 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition font-medium text-lg">C) Instructions on how to play modern online games safely.</button>
+                </div>
+                <p id="gist-feedback" class="text-center mt-6 font-bold text-lg h-6"></p>
+            </div>
+            
+            <div class="mt-8 text-center">
+                <button id="next-to-detail" onclick="nextSection('section-study-detail', 4)" class="hidden mx-auto bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-10 rounded-lg transition shadow-md">Next: Close Reading & Details ➡️</button>
+            </div>
+        </section>
+
+        <section id="section-study-detail" class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-10 mt-6 hidden-section fade-in border-t-4 border-t-purple-500">
+            <span class="inline-block bg-purple-100 text-purple-800 rounded-full px-4 py-1 font-semibold text-sm mb-4 uppercase tracking-wider">Phase 4: Study Detail</span>
+            <h2 class="text-3xl font-bold text-slate-800 mb-6">Detailed Reading & Inference</h2>
+            
+            <p class="text-slate-600 mb-6 text-lg">Read the text carefully. <comment-tag id="3">We have highlighted the past tense verbs for you.</comment-tag id="3" text="We have highlighted the past and present tense verbs for you.
+
+This corrects the instructions, as the text below explicitly highlights present tense verbs in green alongside the past tense ones." type="suggestion"></p>
+
+            <!-- Color Coded Text Content Block -->
+            <div class="bg-slate-50 border-l-4 border-purple-400 p-6 rounded-r-lg mb-8 shadow-sm text-lg leading-relaxed text-slate-800">
+                <div class="mb-4 text-sm font-bold text-slate-500 uppercase tracking-wider flex flex-wrap gap-4 border-b border-slate-200 pb-3">
+                    <span class="flex items-center gap-2"><span class="w-4 h-4 rounded bg-blue-200 border border-blue-400"></span> Regular Past (-ed)</span>
+                    <span class="flex items-center gap-2"><span class="w-4 h-4 rounded bg-purple-200 border border-purple-400"></span> Irregular Past</span>
+                    <span class="flex items-center gap-2"><span class="w-4 h-4 rounded bg-green-200 border border-green-400"></span> Present Tense</span>
+                </div>
+                <p class="mb-4">
+                    <strong>Ana's mother, Rosa,</strong> <span class="verb-irreg">grew up</span> in a small town. After school, she usually <span class="verb-reg">played</span> outside with her cousins. They <span class="verb-irreg">rode</span> bikes, <span class="verb-reg">invented</span> games, and <span class="verb-reg">visited</span> their grandparents. Rosa sometimes <span class="verb-reg">listened</span> to music on the radio, but she <span class="verb-irreg">did not use</span> a phone or the internet. At weekends, the family <span class="verb-reg">watched</span> one film together.
+                </p>
+                <p>
+                    <strong>Leo's father, Carlos,</strong> <span class="verb-reg">lived</span> in a city. He <span class="verb-reg">loved</span> playing football in the street and reading comic books. He often <span class="verb-reg">helped</span> at home before he <span class="verb-irreg">met</span> his friends. In the evening, he <span class="verb-reg">listened</span> to music and <span class="verb-reg">talked</span> with his brothers. Today, Leo <span class="verb-pres">enjoys</span> online games, but Carlos still <span class="verb-pres">prefers</span> spending free time outdoors.
+                </p>
+            </div>
+
+            <!-- Detail Chart -->
+            <div class="bg-white p-6 rounded-xl border-2 border-slate-200 mb-8">
+                <h3 class="font-bold text-xl mb-6 text-slate-800 border-b pb-2">Part A: Who did what? Select the correct person.</h3>
+                <div class="space-y-4 max-w-3xl mx-auto" id="detail-chart">
+                    <!-- JS will populate rows here -->
+                </div>
+                <p id="detail-feedback" class="mt-4 text-center font-bold text-emerald-600 hidden">All details matched correctly!</p>
+            </div>
+
+            <!-- Inference Question -->
+            <div class="bg-indigo-50 p-6 rounded-xl border-2 border-indigo-100 hidden fade-in" id="inference-section">
+                <h3 class="font-bold text-xl mb-4 text-indigo-900 border-b border-indigo-200 pb-2">Part B: Vocabulary Inference</h3>
+                <p class="text-lg text-slate-700 mb-4">Look at the word <strong class="verb-reg">invented</strong> in the text: <em>"They rode bikes, <strong>invented</strong> games, and visited their grandparents."</em></p>
+                <p class="font-medium text-slate-800 mb-4">Based on the context, what does "invented" mean?</p>
+                
+                <div class="flex flex-col gap-3 max-w-2xl">
+                    <button onclick="checkInference(this, false)" class="inf-btn text-left bg-white border-2 border-indigo-200 p-3 rounded-lg hover:bg-indigo-100 transition font-medium">1) Bought from a store</button>
+                    <button onclick="checkInference(this, true)" class="inf-btn text-left bg-white border-2 border-indigo-200 p-3 rounded-lg hover:bg-indigo-100 transition font-medium">2) Created or made up something new</button>
+                    <button onclick="checkInference(this, false)" class="inf-btn text-left bg-white border-2 border-indigo-200 p-3 rounded-lg hover:bg-indigo-100 transition font-medium">3) Destroyed or broke something</button>
+                </div>
+                <p id="inf-feedback" class="mt-4 font-bold text-lg h-6"></p>
+                
+                <button id="next-to-grammar" onclick="nextSection('section-grammar', 5)" class="hidden mt-6 bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-10 rounded-lg transition shadow-md">Next: Grammar Discovery ➡️</button>
+            </div>
+        </section>
+
+        <section id="section-grammar" class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-10 mt-6 hidden-section fade-in border-t-4 border-t-amber-500">
+            <span class="inline-block bg-amber-100 text-amber-800 rounded-full px-4 py-1 font-semibold text-sm mb-4 uppercase tracking-wider">Phase 5: Study Discovery</span>
+            <h2 class="text-3xl font-bold text-slate-800 mb-6">Contrasting Past and Present</h2>
+            
+            <p class="text-lg text-slate-700 mb-6"><comment-tag id="4">Look at the <strong class="verb-reg">blue highlighted verbs</strong> (past) and <strong class="verb-pres">green highlighted verbs</strong> (present) from the text.</comment-tag id="4" text="Look at the <strong class="verb-reg">blue and purple highlighted verbs</strong> (past) and <strong class="verb-pres">green highlighted verbs</strong> (present) from the text.
+
+The text also highlights irregular past verbs in purple, so mentioning both ensures students look at all the past tense examples." type="suggestion"></p>
+            
+            <div class="space-y-6 mb-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-slate-50 p-6 rounded-xl border border-slate-200">
+                    <div>
+                        <h4 class="font-bold text-slate-600 uppercase text-sm tracking-wider mb-4 border-b pb-2">Past Actions (Finished)</h4>
+                        <ul class="space-y-3 text-lg font-medium text-slate-800">
+                            <li>She play<span class="text-blue-600 font-bold bg-blue-100 rounded px-1">ed</span> outside.</li>
+                            <li>They visit<span class="text-blue-600 font-bold bg-blue-100 rounded px-1">ed</span> grandparents.</li>
+                            <li>He liv<span class="text-blue-600 font-bold bg-blue-100 rounded px-1">ed</span> in a city.</li>
+                        </ul>
+                    </div>
+                    <div class="bg-blue-50 p-6 rounded-xl border-2 border-blue-200 flex flex-col justify-center">
+                        <h4 class="font-bold text-blue-800 text-xl mb-3">Past Rules:</h4>
+                        <p class="text-base mb-2 text-slate-700">For most <strong>regular verbs</strong>, we add...</p>
+                        <select id="grammar-select-1" class="w-full p-2 rounded border border-blue-300 font-bold text-blue-900 bg-white mb-4 outline-none">
+                            <option value="">-- Select ending --</option>
+                            <option value="ing">-ing</option>
+                            <option value="ed">-ed or -d</option>
+                            <option value="s">-s or -es</option>
+                        </select>
+                        
+                        <p class="text-base mb-2 text-slate-700">For <strong>irregular verbs</strong> (e.g., <em>grow &rarr; grew</em>)...</p>
+                        <select id="grammar-select-2" class="w-full p-2 rounded border border-purple-300 font-bold text-purple-900 bg-white outline-none">
+                            <option value="">-- Select rule --</option>
+                            <option value="same">we also add -ed.</option>
+                            <option value="change">they change completely.</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-slate-50 p-6 rounded-xl border border-slate-200">
+                     <div>
+                        <h4 class="font-bold text-slate-600 uppercase text-sm tracking-wider mb-4 border-b pb-2">Present Habits (Today)</h4>
+                        <ul class="space-y-3 text-lg font-medium text-slate-800">
+                            <li>Leo enjoy<span class="text-green-700 font-bold bg-green-100 rounded px-1">s</span> online games.</li>
+                            <li>Carlos prefer<span class="text-green-700 font-bold bg-green-100 rounded px-1">s</span> outdoors.</li>
+                        </ul>
+                    </div>
+                    <div class="bg-green-50 p-6 rounded-xl border-2 border-green-200 flex flex-col justify-center">
+                        <h4 class="font-bold text-green-800 text-xl mb-3">Present Rule:</h4>
+                        <p class="text-base mb-2 text-slate-700">To talk about habits or facts today for <em>he, she, or it</em>, we add...</p>
+                        <select id="grammar-select-3" class="w-full p-2 rounded border border-green-300 font-bold text-green-900 bg-white outline-none">
+                            <option value="">-- Select ending --</option>
+                            <option value="s">-s or -es</option>
+                            <option value="ed">-ed or -d</option>
+                            <option value="ing">-ing</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-6 text-center border-t border-slate-200 pt-8">
+                <button onclick="checkGrammarRules()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-10 rounded-lg transition shadow-md">Check All Rules</button>
+                <p id="grammar-feedback" class="mt-4 font-bold text-lg h-6"></p>
+                <button id="next-to-activate" onclick="nextSection('section-activate', 6)" class="hidden mx-auto mt-4 bg-amber-500 hover:bg-amber-600 text-white font-bold py-3 px-10 rounded-lg transition shadow-md">Next: Activation Practice ➡️</button>
+            </div>
+        </section>
+
+        <section id="section-activate" class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-10 mt-6 hidden-section fade-in border-t-4 border-t-rose-500">
+            <span class="inline-block bg-rose-100 text-rose-800 rounded-full px-4 py-1 font-semibold text-sm mb-4 uppercase tracking-wider">Phase 6: Activate</span>
+            <h2 class="text-3xl font-bold text-slate-800 mb-6">Personalized Peer Interview</h2>
+            
+            <p class="text-lg text-slate-700 mb-6">It's time to interview a classmate about their free time when they were younger compared to what they do now. To ask questions in the past, we use <strong>did</strong>. For present habits, we use <strong>do</strong>.</p>
+            
+            <div class="bg-slate-50 p-6 rounded-xl border border-slate-200 mb-8">
+                <h3 class="font-bold text-slate-700 mb-3 text-lg">Formulas:</h3>
+                <p class="font-mono text-blue-700 bg-blue-50 p-2 rounded mb-2">Past: What + did + subject + verb(base form)? &rarr; What did you play?</p>
+                <p class="font-mono text-green-700 bg-green-50 p-2 rounded">Present: What + do + subject + verb(base form)? &rarr; What do you play now?</p>
+            </div>
+
+            <div class="space-y-6 max-w-3xl">
+                <div>
+                    <label class="block font-bold text-slate-800 mb-2">1. Write a question to ask your partner about sports or games they played in the past:</label>
+                    <input type="text" id="act-q1" class="w-full p-3 border-2 border-slate-300 rounded-lg focus:border-rose-500 outline-none font-medium text-lg" placeholder="e.g., What sports did you...">
+                </div>
+                <div>
+                    <label class="block font-bold text-slate-800 mb-2">2. Write a question to ask about what they do in their free time NOW:</label>
+                    <input type="text" id="act-q2" class="w-full p-3 border-2 border-slate-300 rounded-lg focus:border-rose-500 outline-none font-medium text-lg" placeholder="e.g., What do you usually...">
+                </div>
+                <div>
+                    <label class="block font-bold text-slate-800 mb-2">3. Write one sentence comparing what they did in the past to what they do now (use your imagination for the draft!):</label>
+                    <textarea id="act-comp" rows="3" class="w-full p-3 border-2 border-slate-300 rounded-lg focus:border-rose-500 outline-none font-medium text-lg" placeholder="In the past you played football, but now you..."></textarea>
+                </div>
+                
+                <button onclick="finishActivation()" class="bg-slate-800 hover:bg-slate-900 text-white font-bold py-3 px-8 rounded-lg transition shadow-md w-full md:w-auto">Submit Drafts & Review Examples</button>
+                <p id="activate-error" class="hidden text-red-600 font-bold mt-3 bg-red-50 p-3 rounded-lg border border-red-200 max-w-sm">Please type something for all three fields!</p>
+            </div>
+
+            <div id="activation-feedback" class="hidden mt-8 bg-rose-50 p-6 rounded-xl border border-rose-200 fade-in">
+                <comment-tag id="5"><h3 class="font-bold text-rose-800 text-xl mb-4">Great work! Compare your drafts with these examples:</h3></comment-tag id="5" text="<h3 class=\"font-bold text-rose-800 text-xl mb-4\">Great work! Compare your answers with these examples:</h3>
+
+Swapping 'models' for 'examples' provides slightly more universally recognized vocabulary for ESL students reviewing open-ended text answers." type="suggestion">
+                <ul class="list-disc pl-5 space-y-2 text-slate-700 font-medium">
+                    <li><em>"What sports did you play when you were younger?"</em></li>
+                    <li><em>"What do you usually do at the weekends now?"</em></li>
+                    <li><em>"In the past you rode a bike, but today you play online games."</em></li>
+                </ul>
+                <div class="mt-8 text-center">
+                    <button id="next-to-signup" onclick="nextSection('section-signup', 7)" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-4 px-12 rounded-full transition shadow-xl text-xl animate-bounce">Ready for Final Evaluation 📝</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="section-signup" class="bg-white rounded-2xl shadow-xl border border-slate-200 p-8 text-center mt-6 hidden-section fade-in border-t-8 border-t-blue-600 max-w-2xl mx-auto">
+            <div class="mb-6">
+                <h2 class="text-4xl font-bold text-slate-800 mb-4 title-font">Final Evaluation Quiz</h2>
+                <p class="text-slate-600 text-lg">You have completed all study phases! Please enter your complete name to take the 20-item Level 4 quiz and earn your certificate.</p>
+            </div>
+            
+            <div class="mt-8">
+                <input type="text" id="student-name" placeholder="E.g., Maria Garcia" class="w-full px-6 py-4 border-2 border-slate-300 rounded-xl focus:outline-none focus:border-blue-500 text-xl mb-4 text-center transition-colors shadow-sm font-medium">
+                <p id="name-error" class="text-red-500 text-sm hidden mb-4 font-bold bg-red-50 py-2 rounded">Please enter your full name to continue.</p>
+                <button onclick="startQuiz()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-6 rounded-xl transition-transform transform active:scale-95 text-xl shadow-lg">
+                    Begin Quiz &rarr;
+                </button>
+            </div>
+        </section>
+
+        <section id="section-quiz" class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-10 mt-6 hidden-section fade-in">
+            <div class="text-center mb-8 border-b pb-6">
+                <h2 class="text-3xl font-bold text-slate-800 title-font mb-2">Level 4: Knowledge Check</h2>
+                <p class="text-slate-600">Answer these 20 questions based on the text, vocabulary, and grammar rules.</p>
+            </div>
+            
+            <form id="quiz-form" class="space-y-6">
+                <!-- Quiz questions injected via JS -->
+            </form>
+
+            <div class="mt-12 text-center border-t border-slate-200 pt-8 bg-slate-50 p-6 rounded-xl">
+                <button type="button" onclick="submitQuiz()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-4 px-12 rounded-xl text-xl transition transform hover:scale-105 shadow-xl w-full md:w-auto">
+                    Submit Quiz & Get Certificate 🎓
+                </button>
+                <p id="quiz-error" class="text-red-600 mt-4 hidden font-bold bg-red-100 py-2 rounded-lg max-w-md mx-auto">Please answer all 20 questions before submitting!</p>
+            </div>
+        </section>
+
+        <section id="section-certificate" class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-10 mt-6 hidden-section fade-in text-center">
+            <h2 class="text-4xl font-bold text-slate-800 mb-3 title-font">Congratulations! 🎉</h2>
+            <p class="text-xl text-slate-600 mb-8">You have successfully completed Level 4 Lesson 1.</p>
+            
+            <div class="text-center mb-10">
+                <div class="inline-block bg-blue-50 border-4 border-blue-200 rounded-full p-10 shadow-inner relative">
+                    <p class="text-slate-500 font-bold mb-1 uppercase tracking-widest text-sm">Final Score</p>
+                    <p id="final-score" class="text-6xl font-black text-blue-600">0%</p>
+                </div>
+            </div>
+
+            <!-- Hidden Canvas for drawing certificate -->
+            <canvas id="certCanvas" width="900" height="650" class="hidden"></canvas>
+            
+            <!-- Visual display of certificate -->
+            <div class="max-w-3xl mx-auto border-[12px] border-double border-yellow-500 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCI+PGRlZnM+PHBhdHRlcm4gaWQ9InBhdHRlcm4iIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTTAgNDBMNDAgMCBMMjAgMjAgTTAgMEwyMCAyMCIgc3Ryb2tlPSIjZmFjYzE1IiBzdHJva2Utd2lkdGg9IjAuNSIgZmlsbD0ibm9uZSIgb3BhY2l0eT0iMC4yIi8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZmVmY2U4Ii8+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwYXR0ZXJuKSIvPjwvc3ZnPg==')] p-10 rounded-xl mb-10 shadow-2xl relative overflow-hidden">
+                <div class="relative z-10 bg-white/90 p-8 rounded border border-yellow-200">
+                    <h3 class="text-4xl md:text-5xl font-bold title-font text-yellow-800 mb-8 uppercase tracking-widest border-b-2 border-yellow-300 pb-4">Certificate of Achievement</h3>
+                    <p class="text-xl text-slate-700 mb-3 italic">This is proudly presented to</p>
+                    <p id="cert-name" class="text-4xl font-bold text-slate-900 mb-8 inline-block px-12 py-2 bg-yellow-50 rounded-lg shadow-sm border border-yellow-100">Student Name</p>
+                    <p class="text-xl text-slate-700 mb-3">for outstanding performance in</p>
+                    <p class="text-2xl font-bold text-emerald-700 mb-10">Level 4 - English: Free Time Then and Now</p>
+                    
+                    <div class="grid grid-cols-3 gap-4 items-end mt-12 border-t border-slate-200 pt-6">
+                        <div>
+                            <p class="text-sm text-slate-500 mb-1 uppercase font-bold tracking-wider">Score Achieved</p>
+                            <p id="cert-score-text" class="text-3xl font-bold text-blue-600">100%</p>
+                        </div>
+                        <div class="flex flex-col items-center">
+                            <div class="w-20 h-20 bg-gradient-to-br from-yellow-300 to-yellow-500 rounded-full flex items-center justify-center shadow-lg border-4 border-white mb-2 relative">
+                                <span class="text-3xl absolute">🏆</span>
+                            </div>
+                            <p class="text-xs font-bold text-slate-400 uppercase tracking-widest">Verified</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-slate-500 mb-1 uppercase font-bold tracking-wider">Date</p>
+                            <p id="cert-date" class="text-xl font-bold text-slate-700">Date</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button onclick="downloadCertificate()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-10 rounded-xl transition shadow-lg flex items-center justify-center mx-auto gap-3 text-lg">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                </svg>
+                Download Official Certificate
+            </button>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-900 text-slate-400 py-8 text-center mt-auto border-t border-slate-800">
+        <p class="font-bold text-slate-300 mb-2">Level 4 ESA English Lesson</p>
+        <p class="text-sm">Interactive methodology for A2-B1 language acquisition.</p>
+    </footer>
+
+    <script>
+        // Global State
+        let studentName = "";
+        let timerInterval;
+        
+        let currentQuizState = 'section-signup';
+        let gistTimerStarted = false;
+
+        const tabMapping = {
+            'tab-engage': ['section-engage'],
+            'tab-input': ['section-study-input'],
+            'tab-gist': ['section-study-gist'],
+            'tab-detail': ['section-study-detail'],
+            'tab-grammar': ['section-grammar'],
+            'tab-activate': ['section-activate'],
+            'tab-quiz': ['section-signup', 'section-quiz', 'section-certificate']
+        };
+
+        function switchTab(tabId, stepNumber) {
+            // Update active tab styling
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('tab-active', 'bg-blue-600', 'text-white');
+                btn.classList.add('bg-slate-200', 'text-slate-700');
+            });
+            const activeBtn = document.getElementById(tabId);
+            if(activeBtn) {
+                activeBtn.classList.add('tab-active', 'bg-blue-600', 'text-white');
+                activeBtn.classList.remove('bg-slate-200', 'text-slate-700');
+            }
+
+            // Hide all sections
+            document.querySelectorAll('section').forEach(sec => sec.classList.add('hidden-section'));
+
+            // Show sections for the selected tab
+            const sectionsToShow = tabMapping[tabId];
+            if (tabId === 'tab-quiz') {
+                document.getElementById(currentQuizState).classList.remove('hidden-section');
+            } else {
+                sectionsToShow.forEach(secId => {
+                    const sec = document.getElementById(secId);
+                    if(sec) sec.classList.remove('hidden-section');
+                });
+            }
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            updateProgress(stepNumber);
+            
+            // Trigger timer if Gist tab is opened manually
+            if (tabId === 'tab-gist' && !gistTimerStarted) {
+                startGistPhase(true); 
+            }
+        }
+        
+        // Progress Logic (7 phases now)
+        function updateProgress(stepNumber) {
+            const progress = (stepNumber / 7) * 100;
+            document.getElementById('progress-bar').style.width = `${progress}%`;
+        }
+
+        function nextSection(sectionId, stepNumber) {
+            const sectionToTab = {
+                'section-engage': 'tab-engage',
+                'section-study-input': 'tab-input',
+                'section-study-gist': 'tab-gist',
+                'section-study-detail': 'tab-detail',
+                'section-grammar': 'tab-grammar',
+                'section-activate': 'tab-activate',
+                'section-signup': 'tab-quiz',
+                'section-quiz': 'tab-quiz',
+                'section-certificate': 'tab-quiz'
+            };
+            
+            const targetTab = sectionToTab[sectionId];
+            if(targetTab === 'tab-quiz') {
+               currentQuizState = sectionId;
+            }
+            switchTab(targetTab, stepNumber);
+        }
+
+        window.onload = function() {
+            setupEngagePhase();
+            switchTab('tab-engage', 1);
+        };
+
+        // --- PHASE 1: ENGAGE ---
+        const vocabItems = [
+            { icon: "🚲", hint: "R_ _ _ a B_ _ _", answer: "ride a bike", type: "outdoor" },
+            { icon: "📺", hint: "W_ _ _ _ T_", answer: "watch tv", type: "indoor" },
+            { icon: "📱", hint: "U_ _ S_ _ _ _ _ M_ _ _ _", answer: "use social media", type: "indoor" },
+            { icon: "⚽", hint: "P_ _ _ F_ _ _ _ _ _", answer: "play football", type: "outdoor" }
+        ];
+        
+        let typedVocabWords = [];
+
+        function setupEngagePhase() {
+            const zone = document.getElementById('vocab-input-zone');
+            vocabItems.forEach((item, idx) => {
+                const card = document.createElement('div');
+                card.className = "bg-slate-50 border border-slate-200 rounded-xl p-4 text-center shadow-sm";
+                card.innerHTML = `
+                    <div class="text-4xl mb-3">${item.icon}</div>
+                    <p class="text-slate-500 font-mono text-sm tracking-widest mb-3">${item.hint}</p>
+                    <input type="text" id="vocab-inp-${idx}" class="w-full p-2 border border-slate-300 rounded text-center focus:border-blue-500 outline-none uppercase font-bold text-slate-700" placeholder="Type here...">
+                `;
+                zone.appendChild(card);
+            });
+            
+            // Add submit button for the typing part
+            const btnDiv = document.createElement('div');
+            btnDiv.className = "col-span-full text-center mt-4";
+            btnDiv.innerHTML = `<button onclick="verifyVocabTyping()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-8 rounded-lg transition shadow-md">Confirm Words</button>
+                                <p id="vocab-type-err" class="text-red-500 mt-2 hidden font-medium">Check your spelling! Keep trying.</p>`;
+            zone.appendChild(btnDiv);
+        }
+
+        function verifyVocabTyping() {
+            let allCorrect = true;
+            typedVocabWords = [];
+            
+            vocabItems.forEach((item, idx) => {
+                const inp = document.getElementById(`vocab-inp-${idx}`);
+                const val = inp.value.toLowerCase().trim();
+                // Allow exact match or key words
+                const isCorrect = val === item.answer || val.includes(item.answer.split(' ')[0]); 
+                
+                if(val.length > 2) {
+                    inp.classList.remove('border-red-500', 'bg-red-50');
+                    inp.classList.add('border-green-500', 'bg-green-50');
+                    typedVocabWords.push({ word: item.answer, type: item.type, icon: item.icon });
+                } else {
+                    inp.classList.add('border-red-500', 'bg-red-50');
+                    allCorrect = false;
+                }
+            });
+
+            if(typedVocabWords.length === 4) {
+                document.getElementById('vocab-type-err').classList.add('hidden');
+                document.getElementById('vocab-input-zone').classList.add('hidden');
+                initSortingPhase();
+            } else {
+                document.getElementById('vocab-type-err').classList.remove('hidden');
+            }
+        }
+
+        let engageState = {}; // word -> 'indoor' | 'outdoor'
+        
+        function initSortingPhase() {
+            const sortZone = document.getElementById('sorting-zone');
+            sortZone.classList.remove('hidden');
+            
+            const inZone = document.getElementById('indoor-zone');
+            
+            typedVocabWords.forEach((item, idx) => {
+                engageState[item.word] = 'indoor'; // default start
+                const btn = document.createElement('button');
+                btn.className = "activity-card w-full bg-white border-2 border-slate-300 p-3 rounded-lg font-bold text-slate-700 flex justify-between items-center";
+                btn.innerHTML = `<span>${item.icon} ${item.word.toUpperCase()}</span> <span class="text-xs text-blue-500 border border-blue-200 px-2 rounded bg-blue-50">Move &rightwards_arrow;</span>`;
+                
+                btn.onclick = () => {
+                    const currentState = engageState[item.word];
+                    if(currentState === 'indoor') {
+                        engageState[item.word] = 'outdoor';
+                        btn.querySelector('span:last-child').innerHTML = "&leftwards_arrow; Move";
+                        document.getElementById('outdoor-zone').appendChild(btn);
+                    } else {
+                        engageState[item.word] = 'indoor';
+                        btn.querySelector('span:last-child').innerHTML = "Move &rightwards_arrow;";
+                        document.getElementById('indoor-zone').appendChild(btn);
+                    }
+                    updateSortCheckBtn();
+                };
+                inZone.appendChild(btn);
+            });
+            updateSortCheckBtn();
+        }
+        
+        function updateSortCheckBtn() {
+            document.getElementById('check-engage-btn').classList.remove('opacity-50', 'cursor-not-allowed', 'pointer-events-none');
+        }
+
+        function checkEngage() {
+            let correct = 0;
+            typedVocabWords.forEach(item => {
+                if(engageState[item.word] === item.type) correct++;
+            });
+            
+            document.getElementById('engage-feedback').innerText = "Excellent classification! Moving on.";
+            document.getElementById('engage-feedback').className = "mt-4 font-bold text-emerald-600 text-lg h-6";
+            document.getElementById('next-to-input').classList.remove('hidden');
+        }
+
+        // --- PHASE 2: PREDICTION ---
+        function checkPredictions() {
+            const inputs = document.querySelectorAll('.predict-input');
+            let filled = 0;
+            inputs.forEach(inp => { if(inp.value.trim().length > 2) filled++; });
+            
+            if(filled >= 1) {
+                document.getElementById('prediction-feedback').classList.remove('hidden');
+                document.getElementById('next-to-gist').classList.remove('hidden');
+            }
+        }
+
+        // --- PHASE 3: GIST (TIMER) ---
+        function startGistPhase(fromTabClick = false) {
+            if (!fromTabClick) {
+                nextSection('section-study-gist', 3);
+            }
+            
+            if (gistTimerStarted) return;
+            gistTimerStarted = true;
+            
+            let timeLeft = 90;
+            const display = document.getElementById('timer-display');
+            const textContainer = document.getElementById('gist-text-container');
+            
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                let m = Math.floor(timeLeft / 60);
+                let s = timeLeft % 60;
+                display.innerText = `0${m}:${s < 10 ? '0'+s : s}`;
+                
+                if(timeLeft <= 10) {
+                    display.classList.add('text-red-600', 'bg-red-50', 'border-red-200');
+                    display.classList.remove('text-emerald-600', 'bg-emerald-50', 'border-emerald-200');
+                }
+                
+                if(timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    display.innerText = "TIME UP!";
+                    textContainer.style.opacity = "0.2"; // Blur text to force gist answering from memory/skimming
+                    textContainer.classList.add('pointer-events-none');
+                }
+            }, 1000);
+        }
+
+        function checkGist(btn, isCorrect) {
+            clearInterval(timerInterval); // stop timer if they answer early
+            
+            document.querySelectorAll('.gist-btn').forEach(b => {
+                b.classList.remove('bg-blue-50', 'border-blue-500', 'bg-emerald-50', 'border-emerald-500', 'bg-red-50', 'border-red-500');
+                b.classList.add('bg-white', 'border-slate-200');
+            });
+            
+            const feedback = document.getElementById('gist-feedback');
+            
+            if (isCorrect) {
+                btn.classList.add('bg-emerald-50', 'border-emerald-500');
+                btn.classList.remove('bg-white', 'border-slate-200');
+                feedback.innerText = "Correct! The text contrasts past and present leisure activities.";
+                feedback.className = "text-center mt-6 font-bold text-lg h-6 text-emerald-600";
+                document.getElementById('next-to-detail').classList.remove('hidden');
+                document.getElementById('gist-text-container').style.opacity = "1"; // restore text
+            } else {
+                btn.classList.add('bg-red-50', 'border-red-500');
+                btn.classList.remove('bg-white', 'border-slate-200');
+                feedback.innerText = "Not quite. Think about the title 'Then and Now'.";
+                feedback.className = "text-center mt-6 font-bold text-lg h-6 text-red-500";
+            }
+        }
+
+        // --- PHASE 4: DETAIL ---
+        const detailItems = [
+            { id: 'd1', text: "Rode bikes in town", ans: "Rosa" },
+            { id: 'd2', text: "Played football in the street", ans: "Carlos" },
+            { id: 'd3', text: "Did not use the internet", ans: "Rosa" },
+            { id: 'd4', text: "Read comic books", ans: "Carlos" },
+            { id: 'd5', text: "Listened to music", ans: "Both" }
+        ];
+
+        function renderDetailChart() {
+            const chart = document.getElementById('detail-chart');
+            chart.innerHTML = '';
+            
+            detailItems.forEach(item => {
+                const row = document.createElement('div');
+                row.className = "flex flex-col md:flex-row justify-between items-center p-3 border border-slate-200 rounded bg-slate-50 gap-4";
+                row.innerHTML = `
+                    <span class="font-medium text-slate-700 md:w-1/2">${item.text}</span>
+                    <div class="flex gap-2 md:w-1/2 justify-end">
+                        <button onclick="selectDetail('${item.id}', 'Rosa', this)" class="detail-opt px-4 py-1.5 border border-slate-300 rounded bg-white hover:bg-purple-50 text-sm font-bold text-slate-600">Rosa</button>
+                        <button onclick="selectDetail('${item.id}', 'Carlos', this)" class="detail-opt px-4 py-1.5 border border-slate-300 rounded bg-white hover:bg-blue-50 text-sm font-bold text-slate-600">Carlos</button>
+                        <button onclick="selectDetail('${item.id}', 'Both', this)" class="detail-opt px-4 py-1.5 border border-slate-300 rounded bg-white hover:bg-emerald-50 text-sm font-bold text-slate-600">Both</button>
+                    </div>
+                `;
+                chart.appendChild(row);
+            });
+        }
+        
+        // init chart early
+        renderDetailChart();
+        
+        let detailAnswers = {};
+        function selectDetail(id, choice, btnNode) {
+            detailAnswers[id] = choice;
+            
+            // UI update for button group
+            const parent = btnNode.parentElement;
+            parent.querySelectorAll('.detail-opt').forEach(b => {
+                b.classList.remove('bg-purple-600', 'bg-blue-600', 'bg-emerald-600', 'text-white');
+                b.classList.add('bg-white', 'text-slate-600');
+            });
+            
+            if(choice === 'Rosa') btnNode.classList.add('bg-purple-600', 'text-white');
+            if(choice === 'Carlos') btnNode.classList.add('bg-blue-600', 'text-white');
+            if(choice === 'Both') btnNode.classList.add('bg-emerald-600', 'text-white');
+            
+            checkAllDetails();
+        }
+        
+        function checkAllDetails() {
+            let correct = 0;
+            detailItems.forEach(item => {
+                if(detailAnswers[item.id] === item.ans) correct++;
+            });
+            
+            if(correct === detailItems.length) {
+                document.getElementById('detail-feedback').classList.remove('hidden');
+                document.getElementById('inference-section').classList.remove('hidden');
+            }
+        }
+
+        function checkInference(btn, isCorrect) {
+            document.querySelectorAll('.inf-btn').forEach(b => {
+                b.classList.remove('bg-emerald-100', 'border-emerald-500', 'bg-red-100', 'border-red-500');
+            });
+            const feedback = document.getElementById('inf-feedback');
+            
+            if(isCorrect) {
+                btn.classList.add('bg-emerald-100', 'border-emerald-500');
+                feedback.innerText = "Correct! 'Invented' means creating something new.";
+                feedback.className = "mt-4 font-bold text-lg h-6 text-emerald-700";
+                document.getElementById('next-to-grammar').classList.remove('hidden');
+            } else {
+                btn.classList.add('bg-red-100', 'border-red-500');
+                feedback.innerText = "Try again. Think about making games out of imagination.";
+                feedback.className = "mt-4 font-bold text-lg h-6 text-red-600";
+            }
+        }
+
+        // --- PHASE 5: GRAMMAR DISCOVERY ---
+        function checkGrammarRules() {
+            const v1 = document.getElementById('grammar-select-1').value;
+            const v2 = document.getElementById('grammar-select-2').value;
+            const v3 = document.getElementById('grammar-select-3').value;
+            const fb = document.getElementById('grammar-feedback');
+            
+            if (v1 === 'ed' && v2 === 'change' && v3 === 's') {
+                fb.innerText = "Spot on! You understand how to contrast the past and present.";
+                fb.className = "mt-4 font-bold text-emerald-600 text-lg h-6";
+                document.getElementById('next-to-activate').classList.remove('hidden');
+            } else {
+                fb.innerText = "Review the examples. Ensure rules for past and present are correct!";
+                fb.className = "mt-4 font-bold text-red-500 text-lg h-6";
+            }
+        }
+
+        // --- PHASE 6: ACTIVATE ---
+        function finishActivation() {
+            const q1 = document.getElementById('act-q1').value;
+            const q2 = document.getElementById('act-q2').value;
+            const comp = document.getElementById('act-comp').value;
+            const errorMsg = document.getElementById('activate-error');
+            
+            if(q1.length > 5 && q2.length > 5 && comp.length > 5) {
+                errorMsg.classList.add('hidden');
+                document.getElementById('activation-feedback').classList.remove('hidden');
+            } else {
+                errorMsg.classList.remove('hidden');
+            }
+        }
+
+        // --- PHASE 7: QUIZ & CERTIFICATE ---
+        const level4QuizData = [
+            // Details
+            { q: "1. Where did Rosa spend her childhood?", options: ["In a large city", "In a small town", "On a farm"], answer: 1 },
+            { q: "2. Who did Rosa play with after school?", options: ["Her brothers", "Her cousins", "Her classmates"], answer: 1 },
+            { q: "3. How often did Rosa's family watch a film together?", options: ["Every evening", "At weekends", "Once a month"], answer: 1 },
+            { q: "4. What did Carlos like doing in the street?", options: ["Riding bikes", "Playing football", "Reading comics"], answer: 1 },
+            { q: "5. Today, what does Leo enjoy doing?", options: ["Playing online games", "Spending time outdoors", "Listening to the radio"], answer: 0 },
+            
+            // Vocab / Inference
+            { q: "6. Based on the text, what does 'prefer' mean in 'Carlos still prefers spending free time outdoors'?", options: ["To hate something", "To like one thing more than another", "To forget something"], answer: 1 },
+            { q: "7. Which activity is considered an INDOOR activity?", options: ["Riding a bike", "Playing football", "Watching TV"], answer: 2 },
+            { q: "8. What does 'grew up' mean?", options: ["Became an adult / lived as a child", "Planted a garden", "Moved to a city"], answer: 0 },
+            
+            // Grammar: Past Simple Affirmative
+            { q: "9. Grammar: They _____ their grandparents.", options: ["visit", "visited", "visiting"], answer: 1 },
+            { q: "10. Grammar: He _____ playing football.", options: ["love", "loved", "loving"], answer: 1 },
+            { q: "11. Grammar: Rosa _____ outside.", options: ["played", "play", "plays"], answer: 0 },
+            { q: "12. Grammar (Irregular): Carlos _____ his friends.", options: ["meet", "meeted", "met"], answer: 2 },
+            
+            // Grammar: Negative & Questions
+            { q: "13. Grammar (Negative): Rosa _____ a phone.", options: ["did not use", "did not used", "not used"], answer: 0 },
+            { q: "14. Grammar (Negative): Carlos _____ online games in the past.", options: ["did play not", "did not play", "don't played"], answer: 1 },
+            { q: "15. Grammar (Question): _____ Carlos live in a city?", options: ["Do", "Was", "Did"], answer: 2 },
+            { q: "16. Grammar (Question): What _____ Rosa do at weekends?", options: ["did", "does", "was"], answer: 0 },
+            
+            // Synthesis / Complex
+            { q: "17. Which statement is TRUE?", options: ["Rosa used the internet every day.", "Carlos read comic books.", "Leo hates online games."], answer: 1 },
+            { q: "18. Which verb from the text is IRREGULAR?", options: ["invented", "listened", "rode"], answer: 2 },
+            { q: "19. Which verb from the text is REGULAR?", options: ["grew", "helped", "met"], answer: 1 },
+            { q: "20. How did Carlos and Rosa's past free time contrast with Leo's today?", options: ["They spent more time on screens.", "They spent more time outdoors and without internet.", "They did not have free time."], answer: 1 }
+        ];
+
+        function startQuiz() {
+            const nameInput = document.getElementById('student-name').value.trim();
+            if (nameInput === "") {
+                document.getElementById('name-error').classList.remove('hidden');
+                return;
+            }
+            studentName = nameInput;
+            document.getElementById('student-display').innerText = `👤 ${studentName}`;
+            document.getElementById('student-display').classList.remove('hidden');
+            document.getElementById('cert-name').innerText = studentName;
+            
+            generateQuizUI();
+            
+            currentQuizState = 'section-quiz';
+            switchTab('tab-quiz', 7);
+        }
+
+        function generateQuizUI() {
+            const form = document.getElementById('quiz-form');
+            form.innerHTML = '';
+            
+            level4QuizData.forEach((item, index) => {
+                const qDiv = document.createElement('div');
+                qDiv.className = "bg-slate-50 p-5 rounded-xl border border-slate-200";
+                
+                const qTitle = document.createElement('h3');
+                qTitle.className = "font-bold text-lg text-slate-800 mb-4";
+                qTitle.innerText = item.q;
+                qDiv.appendChild(qTitle);
+                
+                const optionsDiv = document.createElement('div');
+                optionsDiv.className = "grid grid-cols-1 md:grid-cols-3 gap-3";
+                
+                item.options.forEach((opt, optIndex) => {
+                    const label = document.createElement('label');
+                    label.className = "flex items-center p-3 rounded-lg border border-slate-300 cursor-pointer hover:bg-blue-50 hover:border-blue-300 transition bg-white";
+                    
+                    const radio = document.createElement('input');
+                    radio.type = "radio";
+                    radio.name = `q${index}`;
+                    radio.value = optIndex;
+                    radio.className = "quiz-radio";
+                    
+                    const span = document.createElement('span');
+                    span.innerText = opt;
+                    span.className = "text-slate-700 font-medium";
+                    
+                    label.appendChild(radio);
+                    label.appendChild(span);
+                    optionsDiv.appendChild(label);
+                });
+                
+                qDiv.appendChild(optionsDiv);
+                form.appendChild(qDiv);
+            });
+        }
+
+        function submitQuiz() {
+            let score = 0;
+            let allAnswered = true;
+            
+            level4QuizData.forEach((item, index) => {
+                const selected = document.querySelector(`input[name="q${index}"]:checked`);
+                if (!selected) {
+                    allAnswered = false;
+                } else {
+                    if (parseInt(selected.value) === item.answer) {
+                        score++;
+                    }
+                }
+            });
+
+            if (!allAnswered) {
+                document.getElementById('quiz-error').classList.remove('hidden');
+                return;
+            }
+            
+            document.getElementById('quiz-error').classList.add('hidden');
+            
+            const percentage = Math.round((score / level4QuizData.length) * 100);
+            
+            document.getElementById('final-score').innerText = `${percentage}%`;
+            document.getElementById('cert-score-text').innerText = `${percentage}%`;
+            const today = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+            document.getElementById('cert-date').innerText = today;
+            
+            currentQuizState = 'section-certificate';
+            switchTab('tab-quiz', 7);
+            
+            // Pre-render canvas
+            drawCanvasCertificate(percentage, today);
+        }
+
+        // --- CERTIFICATE RENDERER ---
+        function drawCanvasCertificate(score, dateStr) {
+            const canvas = document.getElementById('certCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Base background
+            ctx.fillStyle = "#fefce8"; // yellow-50
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw double border
+            ctx.strokeStyle = "#eab308"; // yellow-500
+            ctx.lineWidth = 14;
+            ctx.strokeRect(30, 30, canvas.width - 60, canvas.height - 60);
+            ctx.strokeStyle = "#ca8a04"; // yellow-600
+            ctx.lineWidth = 3;
+            ctx.strokeRect(50, 50, canvas.width - 100, canvas.height - 100);
+
+            // Title
+            ctx.fillStyle = "#854d0e"; // yellow-800
+            ctx.font = "bold 52px 'Comic Neue', Arial";
+            ctx.textAlign = "center";
+            ctx.fillText("CERTIFICATE OF ACHIEVEMENT", canvas.width / 2, 140);
+            
+            // Line separator
+            ctx.beginPath();
+            ctx.moveTo(canvas.width/2 - 250, 160);
+            ctx.lineTo(canvas.width/2 + 250, 160);
+            ctx.strokeStyle = "#fde047";
+            ctx.lineWidth = 2;
+            ctx.stroke();
+
+            // Text
+            ctx.fillStyle = "#475569"; // slate-600
+            ctx.font = "italic 24px 'Inter', Arial";
+            ctx.fillText("This is proudly presented to", canvas.width / 2, 220);
+            
+            // Name Area
+            ctx.fillStyle = "#0f172a"; // slate-900
+            ctx.font = "bold 56px 'Inter', Arial";
+            ctx.fillText(studentName, canvas.width / 2, 300);
+            
+            ctx.beginPath();
+            ctx.moveTo(canvas.width / 2 - 300, 320);
+            ctx.lineTo(canvas.width / 2 + 300, 320);
+            ctx.strokeStyle = "#cbd5e1";
+            ctx.lineWidth = 2;
+            ctx.stroke();
+
+            // Course text
+            ctx.fillStyle = "#475569";
+            ctx.font = "24px 'Inter', Arial";
+            ctx.fillText("for outstanding performance in", canvas.width / 2, 380);
+            
+            ctx.fillStyle = "#047857"; // emerald-700
+            ctx.font = "bold 34px 'Inter', Arial";
+            ctx.fillText("Level 4 - English: Free Time Then and Now", canvas.width / 2, 430);
+
+            // Footer Elements
+            // Score
+            ctx.fillStyle = "#94a3b8"; // slate-400
+            ctx.font = "bold 16px 'Inter', Arial";
+            ctx.fillText("SCORE ACHIEVED", canvas.width / 4, 520);
+            ctx.fillStyle = "#2563eb"; // blue-600
+            ctx.font = "bold 38px 'Inter', Arial";
+            ctx.fillText(score + "%", canvas.width / 4, 560);
+
+            // Badge Graphic
+            ctx.fillStyle = "#facc15"; // yellow-400
+            ctx.beginPath();
+            ctx.arc(canvas.width / 2, 530, 45, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.strokeStyle = "#ffffff";
+            ctx.lineWidth = 6;
+            ctx.stroke();
+            // Drop shadow effect for badge border roughly
+            ctx.strokeStyle = "#ca8a04";
+            ctx.lineWidth = 2;
+            ctx.stroke();
+            
+            ctx.fillStyle = "#854d0e";
+            ctx.font = "40px Arial";
+            ctx.fillText("🏆", canvas.width / 2, 545);
+
+            // Date
+            ctx.fillStyle = "#94a3b8";
+            ctx.font = "bold 16px 'Inter', Arial";
+            ctx.fillText("DATE", (canvas.width / 4) * 3, 520);
+            ctx.fillStyle = "#334155";
+            ctx.font = "bold 28px 'Inter', Arial";
+            ctx.fillText(dateStr, (canvas.width / 4) * 3, 555);
+        }
+
+        function downloadCertificate() {
+            const canvas = document.getElementById('certCanvas');
+            const dataURL = canvas.toDataURL('image/png');
+            
+            const a = document.createElement('a');
+            a.href = dataURL;
+            const safeName = studentName.replace(/[^a-z0-9]/gi, '_').toLowerCase() || 'student';
+            a.download = `Level4_Certificate_${safeName}.png`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+    </script>
+</body>
+</html>
